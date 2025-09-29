@@ -1,0 +1,24 @@
+services:
+  laravel_cwi_mysql:
+    image: mysql:9.4.0
+    container_name: laravel_cwi_mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: laravel_cwi_api
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_USER: root
+      MYSQL_PASSWORD: super_secret
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - services_network
+
+volumes:
+  mysql_data:
+    driver: local
+
+networks:
+  services_network:
+    driver: bridge
