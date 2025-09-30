@@ -11,7 +11,7 @@ test('can list users', function () {
     $response = $this->getJson('/api/users');
 
     $response->assertStatus(200)
-        ->assertJsonCount(3, 'data');
+        ->assertJsonCount(3);
 });
 
 test('can create user', function () {
@@ -62,8 +62,7 @@ test('can delete user', function () {
 
     $response = $this->deleteJson("/api/users/{$user->id}");
 
-    $response->assertStatus(200)
-        ->assertJsonFragment(['id' => $user->id, 'name' => $user->name, 'email' => $user->email]);
+    $response->assertStatus(204);
 
     $this->assertDatabaseMissing('users', ['id' => $user->id]);
 });
