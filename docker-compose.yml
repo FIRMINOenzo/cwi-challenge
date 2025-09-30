@@ -31,6 +31,20 @@ services:
       retries: 5
       start_period: 30s
 
+  node_ms:
+    build:
+      context: ./node-ms
+    image: node-ms:latest
+    container_name: node_ms
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+    ports:
+      - "3000:3000"
+    networks:
+      - services_network
+
 volumes:
   mysql_data:
     driver: local
