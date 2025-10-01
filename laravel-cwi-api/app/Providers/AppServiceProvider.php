@@ -17,7 +17,7 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->bind(UserRepositoryInterface::class, UsersRepository::class);
-        $this->app->bind(ExternalServiceClientInterface::class, ExternalServiceClient::class, fn (Factory $factory) => new ExternalServiceClient($factory));
+        $this->app->bind(ExternalServiceClientInterface::class, ExternalServiceClient::class);
     }
 
     /**
