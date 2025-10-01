@@ -54,7 +54,7 @@ A API em Laravel fornece endpoints para o gerenciamento de usuários, além de s
 1. **Clone o repositório**
 
    ```bash
-   git clone <url-do-repositorio>
+   git clone https://github.com/FIRMINOenzo/cwi-challenge.git
    cd cwi-test
    ```
 
