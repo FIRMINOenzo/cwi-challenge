@@ -18,6 +18,11 @@ return [
         'token' => env('POSTMARK_TOKEN'),
     ],
 
+    'node_ms' => [
+        'base_url' => env('NODE_MS_BASE_URL', 'http://localhost:3000'),
+        'timeout' => env('NODE_MS_TIMEOUT', 5),
+    ],
+
     'resend' => [
         'key' => env('RESEND_KEY'),
     ],
