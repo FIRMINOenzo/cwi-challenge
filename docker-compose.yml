@@ -30,7 +30,63 @@ services:
       timeout: 5s
       retries: 5
       start_period: 30s
-
+  laravel_cwi_phpmyadmin:
+    image: phpmyadmin:5.2.1-apache
+    container_name: laravel_cwi_phpmyadmin
+    restart: unless-stopped
+    ports:
+      - "8383:80"
+    environment:
+      PMA_HOST: laravel_cwi_mysql
+      PMA_PORT: 3306
+      PMA_USER: root
+      PMA_PASSWORD: root_password
+    depends_on:
+      - laravel_cwi_mysql
+    networks:
+      - services_network
+  laravel_cwi_api:
+    platform: linux/amd64
+    image: laravel_cwi_api:latest
+    build:
+      context: ./laravel-cwi-api
+      args:
+        uid: 1000
+        user: laravel
+    container_name: laravel_cwi_api
+    restart: unless-stopped
+    environment:
+      - APP_ENV=production
+      - APP_DEBUG=false
+      - APP_KEY=base64:UKc/6XPzkWHSulAuJ88Yf7JYtyxIsQcspM6Y309HDuM=
+      - DB_CONNECTION=mysql
+      - DB_HOST=laravel_cwi_mysql
+      - DB_PORT=3306
+      - DB_DATABASE=laravel_cwi_api
+      - DB_USERNAME=laravel_cwi_api
+      - DB_PASSWORD=super_secret
+      - NODE_MS_BASE_URL=http://node_ms:3000
+    depends_on:
+      - laravel_cwi_mysql
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+    networks:
+      - services_network
+  laravel_cwi_webserver:
+    platform: linux/amd64
+    image: nginx:alpine
+    container_name: laravel_cwi_webserver
+    restart: unless-stopped
+    ports:
+      - "6162:80"
+    depends_on:
+      - laravel_cwi_api
+    volumes:
+      - ./:/var/www
+      - ./docker-config/nginx/:/etc/nginx/conf.d
+    networks:
+      - services_network
   node_ms:
     build:
       context: ./node-ms
