@@ -7,6 +7,7 @@ use App\Exceptions\External\ExternalServiceException;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Client\RequestException;
+use Illuminate\Http\Client\ConnectionException;
 
 class ExternalServiceClient implements ExternalServiceClientInterface
 {
@@ -20,9 +21,10 @@ class ExternalServiceClient implements ExternalServiceClientInterface
     public function fetch(): array
     {
         try {
-            $response = $this->httpClient()->get('/a'); 
-            return $response->json();
-        } catch (RequestException $exception) {
+            $response = $this->httpClient()->get('/')->throw();
+            $json = $response->json();
+            return is_array($json) ? $json : [];
+        } catch (RequestException|ConnectionException $exception) {
             throw new ExternalServiceException();
         }
     }
