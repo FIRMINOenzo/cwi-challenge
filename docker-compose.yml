@@ -65,6 +65,7 @@ services:
       - DB_DATABASE=laravel_cwi_api
       - DB_USERNAME=laravel_cwi_api
       - DB_PASSWORD=super_secret
+      - NODE_MS_BASE_URL=http://node_ms:3000
     depends_on:
       - laravel_cwi_mysql
     working_dir: /var/www
